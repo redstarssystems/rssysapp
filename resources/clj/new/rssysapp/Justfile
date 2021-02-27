@@ -87,11 +87,6 @@ deploy:
     @just _cmdprint "Deploying uberjar file is not implemented (stub). \n"
 
 
-# Create a standalone application with bundled JDK (using jlink, JDK 9+)
-standalone:
-    @just _cmdprint "Creating a standalone application with bundled JDK...\n"
-
-
 # Run application
 run:
     @just _cmdprint "Running application...\n"
@@ -105,9 +100,9 @@ repl:
 
 
 # Compile java sources (if any)
-javac src-java-folder='src-java':
-    @just _cmdprint "Compiling java sources in {{src-java-folder}} folder...\n"
-    @clojure -X:javac :source-path {{src-java-folder}}
+javac src-java-folder='src-java' target-folder='target/classes' compiler-options='["-target" "1.8" "-source" "1.8" "-Xlint:-options"]':
+    @just _cmdprint "Compiling java sources from '{{src-java-folder}}' to '{{target-folder}}' using compiler options: '{{compiler-options}}'...\n"
+    @clojure -M:javac --main javac {{src-java-folder}} '{{target-folder}}' '{{compiler-options}}'
 
 # Check for outdated dependencies
 outdated:
@@ -141,9 +136,9 @@ bump level='patch':
     @just _cprint '{{YELLOW_COLOR}}' "New version artifact: `cat version_id`\n"
 
 
-# Create standalone application with bundled JDK (using jlink, JDK 9+)
+# Create a standalone application with bundled JDK (using jlink, JDK 9+)
 standalone:
-	@just _cmdprint "Creating standalone application with bundled JDK...\n"
+    @just _cmdprint "Creating a standalone application with bundled JDK...\n"
 
 
 <%={{ }}=%>

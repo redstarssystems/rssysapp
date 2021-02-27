@@ -8,6 +8,7 @@
              org.clojure/test.check                    {:mvn/version "1.1.0"}
 
              ;;logging
+             io.pedestal/pedestal.log                  {:mvn/version "0.5.8"}
              org.apache.logging.log4j/log4j-core       {:mvn/version "2.14.0"}
              org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.14.0"}
              }
@@ -37,25 +38,23 @@
 
              :uberjar  {:replace-deps {seancorfield/depstar {:mvn/version "2.0.187"}}
                         :exec-fn      hf.depstar/uberjar
-                        :exec-args    {:jar "{{name}}.jar" :aot true :main-class "{{namespace}}" .core
-                                            :sync-pom true :exclude ["*.clj" "*.cljc"]
-                                            :compile-ns :all}}
+                        :exec-args    {:jar        "{{name}}.jar"
+                                       :aot true
+                                       :main-class "{{namespace}}.core"
+                                       :sync-pom   true
+                                       :exclude    ["clj$"]
+                                       :compile-ns [:all]}}
 
-             :javac    {:extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.9.884"}}
-                        :extra-paths ["scripts"]
-                        :exec-fn javac-compiler/javac
-                        :exec-args {:source-path "src-java"}}
+             :javac    {:extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.8.677"}}
+                        :extra-paths ["scripts"]}
 
              :install  {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
                         :exec-fn      deps-deploy.deps-deploy/deploy
                         :exec-args    {:installer :local :artifact "{{name}}.jar"}}
 
-             :deploy   {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
-                        :exec-fn      deps-deploy.deps-deploy/deploy
-                        :exec-args    {:installer :remote :artifact "{{name}}.jar"}}
 
              :outdated {:extra-deps {antq/antq {:mvn/version "0.11.1"}}
                         :main-opts  ["-m" "antq.core"]}
 
-
-             }}
+             }
+ }

@@ -28,8 +28,9 @@
 ;; org.clojure/tools.deps.alpha {:mvn/version "0.8.677"}
 ;;;;
 
-(ns javac-compiler
+(ns javac
   "A simple java compiler for working with the Clojure CLI tools.
+
   Links:
     * https://clojure.org/guides/getting_started
     * https://clojure.org/guides/deps_and_cli"
@@ -152,10 +153,12 @@
 
 (defn javac
   "Java source compiler.
+
   Params:
     * source-path      - path to java sources
     * target-path      - files are compiled to the target path. (Default: \"target/classes\")
     * compiler-options - java compiler options.
+
   Example:
     * (javac \"src/main/java\")
     * (javac \"src/main/java\" \"classes\")
@@ -181,25 +184,25 @@
 
   (javac "src/main/java")
   ;; calling from the command line:
-  ;;   $ clojure -A:javac --main javac-compiler src/main/java
+  ;;   $ clojure -A:javac --main javac src/main/java
   ;; both results are identical:
   ;;   => compiles into "target/classes" directory with the current java version
 
   (javac "src/main/java" "classes1")
   ;; calling from the command line:
-  ;;   $ clojure -A:javac --main javac-compiler src/main/java classes1
+  ;;   $ clojure -A:javac --main javac src/main/java classes1
   ;; both results are identical:
   ;;   => compiles into "classes1" directory with the current java version
 
   (javac "src/main/java" "classes2" ["-target" "8" "-source" "8" "-Xlint:-options"])
   ;; calling from the command line:
-  ;;   $ clojure -A:javac --main javac-compiler src/main/java classes2 '["-target" "8" "-source" "8" "-Xlint:-options"]'
+  ;;   $ clojure -A:javac --main javac src/main/java classes2 '["-target" "8" "-source" "8" "-Xlint:-options"]'
   ;; both results are identical:
   ;;   => compiles into "classes2" directory with the java 8 version
 
   (javac "src/main/java" "classes3" ["-cp" "src/main/java:target/classes" "-target" "14" "-source" "14" "-Xlint:-options"])
   ;; calling from the command line:
-  ;;   $ clojure -A:javac --main javac-compiler src/main/java classes3 '["-cp" "src/main/java:target/classes" "-target" "14" "-source" "14" "-Xlint:-options"]'
+  ;;   $ clojure -A:javac --main javac src/main/java classes3 '["-cp" "src/main/java:target/classes" "-target" "14" "-source" "14" "-Xlint:-options"]'
   ;; both results are identical:
   ;;   => compiles into "classes3" directory with the java 14 version
   )
