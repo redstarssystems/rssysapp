@@ -1,0 +1,61 @@
+{
+ :mvn/repos {"clojars" {:url "https://repo.clojars.org/"}
+             "central" {:url "https://repo1.maven.org/maven2/"}}
+
+ :paths     ["src" "resources" "target/classes"]
+
+ :deps      {org.clojure/clojure                       {:mvn/version "1.10.2"}
+             org.clojure/test.check                    {:mvn/version "1.1.0"}
+
+             ;;logging
+             org.apache.logging.log4j/log4j-core       {:mvn/version "2.14.0"}
+             org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.14.0"}
+             }
+
+ :aliases   {
+
+             :run      {:extra-paths ["resources"]
+                        :jvm-opts    ["-DLOG4J_CONFIGURATION_FILE=resources/log4j2.xml"
+                                      "-Duser.timezone=UTC"]
+                        :main-opts   ["--main" "{{namespace}}.core"]}
+
+             :repl     {:extra-deps  {nrepl/nrepl          {:mvn/version "0.8.3"}
+                                      healthsamurai/matcho {:mvn/version "0.3.7"}
+                                      criterium/criterium  {:mvn/version "0.4.6"}
+                                      hashp/hashp          {:mvn/version "0.2.0"}}
+                        :extra-paths ["dev/src" "resources" "test"]
+                        :jvm-opts    []
+                        :main-opts   ["--main" "nrepl.cmdline"]}
+
+             :test     {:extra-deps  {org.clojure/test.check        {:mvn/version "1.1.0"}
+                                      healthsamurai/matcho          {:mvn/version "0.3.7"}
+                                      lambdaisland/kaocha           {:mvn/version "1.0.732"}
+                                      lambdaisland/kaocha-cloverage {:mvn/version "1.0.75"}}
+                        :extra-paths ["resources" "test" "test/resources"]
+                        :jvm-opts    []
+                        :main-opts   ["--main" "kaocha.runner"]}
+
+             :uberjar  {:replace-deps {seancorfield/depstar {:mvn/version "2.0.187"}}
+                        :exec-fn      hf.depstar/uberjar
+                        :exec-args    {:jar "{{name}}.jar" :aot true :main-class "{{namespace}}" .core
+                                            :sync-pom true :exclude ["*.clj" "*.cljc"]
+                                            :compile-ns :all}}
+
+             :javac    {:extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.9.884"}}
+                        :extra-paths ["scripts"]
+                        :exec-fn javac-compiler/javac
+                        :exec-args {:source-path "src-java"}}
+
+             :install  {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
+                        :exec-fn      deps-deploy.deps-deploy/deploy
+                        :exec-args    {:installer :local :artifact "{{name}}.jar"}}
+
+             :deploy   {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
+                        :exec-fn      deps-deploy.deps-deploy/deploy
+                        :exec-args    {:installer :remote :artifact "{{name}}.jar"}}
+
+             :outdated {:extra-deps {antq/antq {:mvn/version "0.11.1"}}
+                        :main-opts  ["-m" "antq.core"]}
+
+
+             }}
