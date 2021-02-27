@@ -89,7 +89,7 @@ deploy:
 
 # Run application
 run:
-    @just _cmdprint "Running application...\n"
+    @just _cmdprint "Running an application...\n"
     @clojure -M:run
 
 
