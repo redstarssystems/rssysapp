@@ -25,6 +25,31 @@ This `Application template` provides:
 - configured `cljstyle` formatter;
 - run tests using https://github.com/lambdaisland/kaocha[kaocha].
 
+This template will give you the following basic project workflow:
+[source, bash]
+----
+mike@mbp02 just
+List of available recipes
+Available recipes:
+    build              # Build uberjar file (as an application)
+    bump level='patch' # Bump version artifact in `version_id` file. Parameter should be one of: major, minor, patch, alpha, beta, rc, release.
+    clean              # Clean target folder
+    default            # Help
+    deploy             # Deploy uberjar file to remote repository (stub)
+    format             # Format source code
+    install            # Install uberjar locally (requires the pom.xml file)
+    javac              # Compile java sources (if any)
+    lint               # Lint source code
+    outdated           # Check for outdated dependencies
+    repl               # Run Clojure repl
+    requirements       # Install project requirements (OS will be detected automatically)
+    run                # Run application
+    standalone         # Create a standalone application with bundled JDK (using jlink, JDK 9+)
+    test               # Run tests
+----
+
+
+
 See also:
 
 * https://github.com/redstarssystems/rssyslib[Library template]
@@ -43,7 +68,7 @@ To create a project from this template just run:
 ----
 where `:clj-new` is alias in `~/.clojure/deps.edn` file (see prerequisites below).
 
-Please, see `README.adoc` in a root folder of created project.
+NOTE: Please, see `README.adoc` in a root folder of created project to install other tools once.
 
 
 === Install prerequisites
