@@ -23,7 +23,7 @@
              :repl     {:extra-deps  {nrepl/nrepl          {:mvn/version "0.8.3"}
                                       healthsamurai/matcho {:mvn/version "0.3.7"}
                                       criterium/criterium  {:mvn/version "0.4.6"}
-                                      hashp/hashp          {:mvn/version "0.2.0"}}
+                                      hashp/hashp          {:mvn/version "0.2.1"}}
                         :extra-paths ["dev/src" "resources" "test"]
                         :jvm-opts    []
                         :main-opts   ["--main" "nrepl.cmdline"]}
@@ -53,7 +53,7 @@
                         :exec-args    {:installer :local :artifact "{{name}}.jar"}}
 
 
-             :outdated {:extra-deps {antq/antq {:mvn/version "0.11.1"}}
+             :outdated {:extra-deps {antq/antq {:mvn/version "0.11.2"}}
                         :main-opts  ["-m" "antq.core"]}
 
              }
