@@ -1,5 +1,11 @@
 == Changelog
 
+=== [0.1.0] - 06-03-2021
+
+==== Added
+
+* Now template can produce standalone application with bundled JDK.
+
 === [0.1.0-SNAPSHOT] - 04-03-2021
 
 ==== Added
