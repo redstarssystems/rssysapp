@@ -104,7 +104,7 @@ javac src-java-folder='src-java' target-folder='target/classes' compiler-options
 # Check for outdated dependencies
 outdated:
     @just _cmdprint "Checking for outdated dependencies...\n"
-    @clojure -M:outdated
+    @clojure -M:outdated --exclude=org.clojure/tools.deps.alpha
 
 
 # Run tests
