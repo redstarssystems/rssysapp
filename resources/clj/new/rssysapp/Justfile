@@ -140,7 +140,7 @@ standalone: build
     @rm -rf ./{{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}
     jlink --output {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}} --add-modules java.sql,java.management,jdk.management,java.desktop,java.naming,jdk.unsupported --strip-debug --compress 2 --no-header-files --no-man-pages
     cp {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}.jar {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/lib/
-    @echo '#!/bin/sh\n\nbin/java -Xmx1g -cp .:./lib/* {{GROUP_ID}}.{{ARTIFACT_ID}}.core' > {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
+    @printf "#!/bin/sh\n\nbin/java -Xmx1g -cp .:./lib/* {{GROUP_ID}}.{{ARTIFACT_ID}}.core" > {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
     @chmod +x {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
     cd {{TARGET_FOLDER}} && tar cvfz {{ARTIFACT_ID}}-{{VERSION_ID}}.tar.gz {{ARTIFACT_ID}}-{{VERSION_ID}}/
 
