@@ -140,6 +140,21 @@ brew install borkdude/brew/babashka
 sudo bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
 ----
 
+.Install {direnv}
+.. MacOS
++
+[source, bash]
+----
+brew install direnv
+----
++
+.. Linux
++
+[source, bash]
+----
+sudo bash < <(curl -s https://direnv.net/install.sh)
+----
+
 
 === Managing this project
 
