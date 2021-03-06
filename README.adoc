@@ -10,6 +10,7 @@ image:https://img.shields.io/clojars/v/rssysapp/clj-template.svg[clojars,link=ht
 :clj-new:           https://github.com/seancorfield/clj-new[clj-new]
 :just:              https://github.com/casey/just[just]
 :babashka:          https://github.com/babashka/babashka[babashka]
+:direnv:            https://github.com/direnv/direnv[direnv]
 :toc:
 
 === Intro
@@ -155,6 +156,12 @@ brew install direnv
 sudo bash < <(curl -s https://direnv.net/install.sh)
 ----
 
+Also, don't forget to install {direnv} hook for your shell.
+Example for `zsh` shell:
+[source, bash]
+----
+echo 'eval "$(direnv hook zsh)"\n' >> ~/.zshrc
+----
 
 === Managing this project
 
