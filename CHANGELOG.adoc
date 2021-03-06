@@ -1,5 +1,19 @@
 == Changelog
 
+=== [0.1.1] - 06-03-2021
+
+==== Added
+
+* jlink availability check
+
+==== Fixed
+
+* replace echo by printf to produce correct start script under Linux.
+
+==== Changed
+
+* JVM params for standalone command moved to external var
+
 === [0.1.0] - 06-03-2021
 
 ==== Added
