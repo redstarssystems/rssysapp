@@ -136,6 +136,7 @@ bump level='patch' value='':
 # Create a standalone application with bundled JDK (using jlink, JDK 9+)
 standalone: build
     @just _cmdprint "Creating a standalone application with bundled JDK...\n"
+    @bb -e '(if (nil? (fs/which "jlink")) (do (println "jlink is not installed. Please, install JDK jmod package.\n") (System/exit 1)) (System/exit 0)))'
     @rm -rf ./{{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}
     jlink --output {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}} --add-modules java.sql,java.management,jdk.management,java.desktop,java.naming,jdk.unsupported --strip-debug --compress 2 --no-header-files --no-man-pages
     cp {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}.jar {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/lib/
