@@ -132,6 +132,7 @@ bump level='patch' value='':
     @bb -f scripts/bump-semver.clj {{VERSION_ID}} {{level}} {{value}} > version_id
     @just _cprint '{{YELLOW_COLOR}}' "New version artifact: `cat version_id`\n"
 
+STANDALONE-JVM-PARAMS := "-Xmx1g"
 
 # Create a standalone application with bundled JDK (using jlink, JDK 9+)
 standalone: build
@@ -140,7 +141,7 @@ standalone: build
     @rm -rf ./{{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}
     jlink --output {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}} --add-modules java.sql,java.management,jdk.management,java.desktop,java.naming,jdk.unsupported --strip-debug --compress 2 --no-header-files --no-man-pages
     cp {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}.jar {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/lib/
-    @printf "#!/bin/sh\n\nbin/java -Xmx1g -cp .:./lib/* {{GROUP_ID}}.{{ARTIFACT_ID}}.core" > {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
+    @printf "#!/bin/sh\n\nbin/java {{STANDALONE-JVM-PARAMS}} -cp .:./lib/* {{GROUP_ID}}.{{ARTIFACT_ID}}.core" > {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
     @chmod +x {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}/start.sh
     cd {{TARGET_FOLDER}} && tar cvfz {{ARTIFACT_ID}}-{{VERSION_ID}}.tar.gz {{ARTIFACT_ID}}-{{VERSION_ID}}/
 
