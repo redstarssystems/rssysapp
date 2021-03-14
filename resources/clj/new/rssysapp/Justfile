@@ -106,6 +106,13 @@ compile compile-path='target/classes': javac
     @just _cmdprint "Compiling clojure code... \n"
     clojure -M:compile -e "(require,'badigeon.compile)(badigeon.compile/compile,'{{GROUP_ID}}.{{ARTIFACT_ID}}.core,{:compile-path,\"{{compile-path}}\"})"
 
+# Build thin JAR file for application
+jar: compile
+    @just _cmdprint "Building thin JAR file for application...\n"
+    @mkdir -p target
+    clojure -X:jar :jar {{TARGET_FOLDER}}/{{ARTIFACT_ID}}-{{VERSION_ID}}.jar :group-id {{GROUP_ID}} :artifact-id {{ARTIFACT_ID}} :version '"{{VERSION_ID}}"'
+
+
 # Check for outdated dependencies
 outdated:
     @just _cmdprint "Checking for outdated dependencies...\n"

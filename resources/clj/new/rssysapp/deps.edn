@@ -37,6 +37,15 @@
                         :jvm-opts    []
                         :main-opts   ["--main" "kaocha.runner"]}
 
+             :jar  {:replace-deps {seancorfield/depstar {:mvn/version "2.0.188"}}
+                        :exec-fn      hf.depstar/jar
+                        :exec-args    {:jar        "{{name}}.jar"
+                                       :aot true
+                                       :exclude [".*{{namespace}}.*\\.clj"]
+                                       :main-class "{{namespace}}.core"
+                                       :sync-pom   true
+                                       :compile-ns [:all]}}
+
              :uberjar  {:replace-deps {seancorfield/depstar {:mvn/version "2.0.188"}}
                         :exec-fn      hf.depstar/uberjar
                         :exec-args    {:jar        "{{name}}.jar"
