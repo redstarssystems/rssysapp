@@ -101,6 +101,11 @@ javac src-java-folder='src-java' target-folder='target/classes' compiler-options
     @just _cmdprint "Compiling java sources from '{{src-java-folder}}' to '{{target-folder}}' using compiler options: '{{compiler-options}}'...\n"
     @clojure -M:javac --main javac {{src-java-folder}} '{{target-folder}}' '{{compiler-options}}'
 
+# Compile clojure code (AOT)
+compile compile-path='target/classes': javac
+    @just _cmdprint "Compiling clojure code... \n"
+    clojure -M:compile -e "(require,'badigeon.compile)(badigeon.compile/compile,'{{GROUP_ID}}.{{ARTIFACT_ID}}.core,{:compile-path,\"{{compile-path}}\"})"
+
 # Check for outdated dependencies
 outdated:
     @just _cmdprint "Checking for outdated dependencies...\n"

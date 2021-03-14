@@ -14,6 +14,7 @@
              }
 
  :aliases   {
+             :compile  {:extra-deps {badigeon/badigeon {:mvn/version "1.4"}}}
 
              :run      {:extra-paths ["resources"]
                         :jvm-opts    ["-DLOG4J_CONFIGURATION_FILE=resources/log4j2.xml"
