@@ -26,9 +26,9 @@ Ensure that the following dependencies are installed in OS: `bash`, `curl`, `rlw
 +
 [source, bash]
 ----
-curl -O https://download.clojure.org/install/linux-install-1.10.2.790.sh
-chmod +x linux-install-1.10.2.790.sh
-sudo ./linux-install-1.10.2.790.sh
+curl -O https://download.clojure.org/install/linux-install-1.10.3.822.sh
+chmod +x linux-install-1.10.3.822.sh
+sudo ./linux-install-1.10.3.822.sh
 ----
 
 . Install latest {clj-new} library to a file `~/.clojure/deps.edn`
@@ -37,29 +37,10 @@ sudo ./linux-install-1.10.2.790.sh
 ----
 {
  :aliases {
-           :clj-new     {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.243"}}
-                         :exec-fn    clj-new/create}
+           :new     {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.297"}}
+                     :exec-fn    clj-new/create}
           }
  }
-----
-
-. Install {just} utility
-.. MacOS
-+
-[source, bash]
-----
-brew install just
-----
-
-.. Linux
-+
-[source, bash]
-----
-wget https://github.com/casey/just/releases/download/v0.8.3/just-v0.8.3-x86_64-unknown-linux-musl.tar.gz
-
-tar -zxvf just-v0.8.3-x86_64-unknown-linux-musl.tar.gz just
-
-sudo mv ./just /usr/local/bin
 ----
 
 . Install {babashka}
@@ -85,41 +66,38 @@ just requirements
 ----
 to install other necessary tools (MacOS only, for Linux manual instruction).
 
-. Run once in project folder:
-+
-[source,bash]
-----
-direnv allow
-----
-
-to allow `direnv` to load environment variables from `.env.public` and `.env.private` files.
-
-
 === Project workflow
 
-To configure project workflow scripts use `Justfile`.
+To configure project workflow scripts use `bb.edn`.
 
-To configure project version use file `version_id`
+To configure project version use file `project-version`.
 
-To configure `group-id` and `artifact-id` for jar file use file `.env.public`
+To configure `group-id` and `artifact-id` for jar file use file `project-config`.
 
-Run `just` to show help for project workflow.
+To configure secrets & passwords use file `project-secrets.edn`.
 
-List of available `just` commands:
+Run `bb tasks` to show help for project workflow.
 
-* `requirements`  - install necessary tools (MacOS only): clj-kondo, cljstyle, direnv. For Linux install them manually.
-* `clean`         - clear target folder
-* `repl`          - run Clojure REPL
-* `javac`         - compile java sources (if any)
-* `build`         - build uberjar file (application)
-* `install`       - install uberjar file to local .m2
-* `outdated`      - check for outdated dependencies
-* `deploy`        - deploy uberjar file to remote repository (stub)
-* `test`          - run tests
-* `bump`          - bump version artifact in `version_id` file, level may be one of: major, minor, patch, alpha, beta, rc, release.
-* `format`        - format source code
-* `lint`          - lint source code
-* `standalone`    - create a standalone application with bundled JDK (using jlink, JDK 9+)
+List of available tasks:
+
+[sources]
+----
+clean        Clean target folder
+build        Build application for this project (standalone uberjar file)
+install      Install application uberjar file locally (requires the pom.xml file)
+deploy       Deploy this application
+run          Run application
+repl         Run Clojure repl
+outdated     Check for outdated dependencies
+bump         Bump version artifact in `project-version` file, level may be one of: major, minor, patch, alpha, beta, rc, release.
+test         Run tests
+format       Format source code
+lint         Lint source code
+javac        Compile java sources (if any)
+jar          Build thin jar file for this application
+standalone   Create a standalone application with bundled JDK (using jlink, JDK 9+)
+requirements Install project requirements
+----
 
 
 === License

@@ -1,7 +1,7 @@
-(ns clj.new.rssysapp
+(ns clj.new.org.rssys.apptemplate
   (:require [clj.new.templates :refer [renderer project-data ->files]]))
 
-(defn rssysapp
+(defn apptemplate
   "entry point to run template."
   [name]
   (let [render (renderer "rssysapp")
@@ -17,16 +17,14 @@
       ["src/{{nested-dirs}}/core.clj" (render "src/core.clj" data)]
       ["test/{{nested-dirs}}/core_test.clj" (render "test/core_test.clj" data)]
       [".editorconfig" (render ".editorconfig" data)]
-      [".env.public" (render ".env.public" data)]
-      [".env.private" (render ".env.private" data)]
-      [".envrc" (render ".envrc" data)]
+      ["project-config.edn" (render "project-config.edn" data)]
+      ["project-secrets.edn" (render "project-secrets.edn" data)]
+      ["bb.edn" (render "bb.edn" data)]
       [".cljstyle" (render ".cljstyle" data)]
       ["CHANGELOG.adoc" (render "CHANGELOG.adoc" data)]
       ["LICENSE" (render "LICENSE" data)]
-      ["Justfile" (render "Justfile" data)]
       ["tests.edn" (render "tests.edn" data)]
-      ["version_id" (render "version_id" data)]
+      ["project-version" (render "project-version" data)]
       ["README.adoc" (render "README.adoc" data)]
       ["scripts/bump-semver.clj" (render "scripts/bump-semver.clj" data)]
-      ["scripts/javac.clj" (render "scripts/javac.clj" data)]
       ["pom.xml" (render "pom.xml" data)])))

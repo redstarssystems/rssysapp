@@ -1,0 +1,9 @@
+;; Project configuration
+;; Put here your environment variables and public configuration parameters for this project
+{
+ :project-name "apptemplate"
+ :group-id     "org.rssys.apptemplate"
+ :artifact-id  "clj-template"
+ }
+
+

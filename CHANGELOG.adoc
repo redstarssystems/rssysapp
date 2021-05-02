@@ -1,6 +1,13 @@
 == Changelog
 
-=== [0.1.2] - future release
+=== [1.0.0] - future release
+
+.Breaking changes
+* now all functionality of `just`, `direnv` utilities performed by `babashka` v0.3.7+
+** removed utilities from project requirements: `just`, `direnv`
+** removed config files: `Justfile`, `.env.public`, `.env.private`, `.envrc`
+* artifact name has changed to `org.rssys.apptemplate/clj-template` due to new Clojars policy
+* file `version_id` is renamed to `project-version`
 
 .Added
 - Compile Clojure code (AOT)

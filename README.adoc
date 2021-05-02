@@ -4,13 +4,11 @@ image:https://img.shields.io/clojars/v/rssysapp/clj-template.svg[clojars,link=ht
 == Application template
 
 :Author:            Mike Ananev
-:Date:              23/02/2021
+:Date:              25/04/2021
 :git:               https://git-scm.com[git]
 :clojure-deps-cli:  https://clojure.org/guides/getting_started[clojure deps cli]
 :clj-new:           https://github.com/seancorfield/clj-new[clj-new]
-:just:              https://github.com/casey/just[just]
 :babashka:          https://github.com/babashka/babashka[babashka]
-:direnv:            https://github.com/direnv/direnv[direnv]
 :toc:
 
 === Intro
@@ -19,8 +17,9 @@ This `Application template` helps you to quick start new application project usi
 
 This `Application template` provides:
 
-- project control via `Justfile` (see {just}) and scripting using {babashka};
-- environment variables control using `direnv` utility;
+- project control using {babashka} tasks (v0.3.7+);
+- environment variables control and project configuration using `project-config.edn` file;
+- secrets & passwords control using `project-secrets.edn` file;
 - editor configuration via `.editorconfig` file;
 - configured `clj-kondo` linter;
 - configured `cljstyle` formatter;
@@ -29,24 +28,24 @@ This `Application template` provides:
 This template will give you the following basic project workflow:
 [source, bash]
 ----
-mike@mbp02 just
-List of available recipes
-Available recipes:
-    build              # Build uberjar file (as an application)
-    bump level='patch' # Bump version artifact in `version_id` file, level may be one of: major, minor, patch, alpha, beta, rc, release.
-    clean              # Clean target folder
-    default            # Help
-    deploy             # Deploy uberjar file to remote repository (stub)
-    format             # Format source code
-    install            # Install uberjar locally (requires the pom.xml file)
-    javac              # Compile java sources (if any)
-    lint               # Lint source code
-    outdated           # Check for outdated dependencies
-    repl               # Run Clojure repl
-    requirements       # Install project requirements (OS will be detected automatically)
-    run                # Run application
-    standalone         # Create a standalone application with bundled JDK (using jlink, JDK 9+)
-    test               # Run tests
+mike@mbp02 bb tasks
+The following tasks are available:
+
+clean        Clean target folder
+build        Build application for this project (standalone uberjar file)
+install      Install application uberjar file locally (requires the pom.xml file)
+deploy       Deploy this application
+run          Run application
+repl         Run Clojure repl
+outdated     Check for outdated dependencies
+bump         Bump version artifact in `project-version` file, level may be one of: major, minor, patch, alpha, beta, rc, release.
+test         Run tests
+format       Format source code
+lint         Lint source code
+javac        Compile java sources (if any)
+jar          Build thin jar file for this application
+standalone   Create a standalone application with bundled JDK (using jlink, JDK 9+)
+requirements Install project requirements
 ----
 
 
@@ -64,10 +63,10 @@ To create a project from this template just run:
 
 [source, bash]
 ----
-    clojure -X:clj-new :template rssysapp :name myname/myapp
-    cd myapp
+    clojure -X:new :template org.rssys.apptemplate :name com.example/app01
+    cd app01
 ----
-where `:clj-new` is alias in `~/.clojure/deps.edn` file (see prerequisites below).
+where `:new` is alias in `~/.clojure/deps.edn` file (see prerequisites below).
 
 NOTE: Please, see `README.adoc` in a root folder of created project to install other tools once.
 
@@ -89,9 +88,9 @@ Ensure that the following dependencies are installed in OS: `bash`, `curl`, `rlw
 +
 [source, bash]
 ----
-curl -O https://download.clojure.org/install/linux-install-1.10.2.790.sh
-chmod +x linux-install-1.10.2.790.sh
-sudo ./linux-install-1.10.2.790.sh
+curl -O https://download.clojure.org/install/linux-install-1.10.3.822.sh
+chmod +x linux-install-1.10.3.822.sh
+sudo ./linux-install-1.10.3.822.sh
 ----
 
 . Install latest {clj-new} library to a file `~/.clojure/deps.edn`
@@ -100,33 +99,14 @@ sudo ./linux-install-1.10.2.790.sh
 ----
 {
  :aliases {
-           :clj-new     {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.243"}}
-                         :exec-fn    clj-new/create}
+           :new     {:extra-deps {seancorfield/clj-new {:mvn/version "1.1.297"}}
+                     :exec-fn    clj-new/create}
           }
 
  }
 ----
 
-. Install {just} utility
-.. MacOS
-+
-[source, bash]
-----
-brew install just
-----
-
-.. Linux
-+
-[source, bash]
-----
-wget https://github.com/casey/just/releases/download/v0.8.3/just-v0.8.3-x86_64-unknown-linux-musl.tar.gz
-
-tar -zxvf just-v0.8.3-x86_64-unknown-linux-musl.tar.gz just
-
-sudo mv ./just /usr/local/bin
-----
-
-. Install {babashka}
+. Install {babashka}  v0.3.7+
 .. MacOS
 +
 [source, bash]
@@ -141,95 +121,6 @@ brew install borkdude/brew/babashka
 sudo bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
 ----
 
-.Install {direnv}
-.. MacOS
-+
-[source, bash]
-----
-brew install direnv
-----
-+
-.. Linux
-+
-[source, bash]
-----
-sudo bash < <(curl -s https://direnv.net/install.sh)
-----
-
-Also, don't forget to install {direnv} hook for your shell.
-Example for `zsh` shell:
-[source, bash]
-----
-echo 'eval "$(direnv hook zsh)"\n' >> ~/.zshrc
-----
-
-=== Managing this project
-
-==== Clean project
-
-To clean target folder run:
-
-[source,bash]
-----
-just clean
-----
-
-==== Bump artifact version
-
-To set release version run:
-
-[source,bash]
-----
-just bump release
-----
-
-To update patch version run:
-
-[source,bash]
-----
-just bump patch
-----
-
-==== Build project
-
-To build this template run:
-
-[source,bash]
-----
-just build
-----
-
-This command will produce deployable jar file and update the generated `pom.xml` file to keep the dependencies synchronized with your `deps.edn` file.
-You can update the version information in the `pom.xml` using the `version_id` file.
-
-==== Install artifact
-
-To install jar file to local .m2 run:
-
-[source,bash]
-----
-just install
-----
-
-==== Deploy artifact
-
-To deploy jar file to Clojars run:
-
-[source,bash]
-----
-just deploy
-----
-
-Check `.env.private` file for correct values of user and password.
-
-==== Check old dependencies
-
-To check project for outdated dependencies run:
-
-[source,bash]
-----
-just outdated
-----
 
 === License
 
