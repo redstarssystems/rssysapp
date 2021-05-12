@@ -1,4 +1,7 @@
 {:deps  {cprop/cprop {:mvn/version "0.1.17"}}
+
+ :min-bb-version "0.3.7"
+
  :tasks {:requires    ([babashka.fs :as fs]
                        [cprop.core :refer [load-config]]
                        [cprop.source :refer [from-env]])
@@ -51,6 +54,7 @@
          repl         {:doc  "Run Clojure repl"
                        :task (clojure "-M:repl")}
 
+         ;;use `bb outdated --upgrade` or `bb outdated --upgrade --force`
          outdated     {:doc  "Check for outdated dependencies"
                        :task (clojure (str "-M:outdated " (apply str (interpose " " *command-line-args*))))}
 
