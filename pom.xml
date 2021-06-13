@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.rssys.apptemplate</groupId>
   <artifactId>clj-template</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>rssysapp</name>
   <description>Red Stars Systems application template.</description>
   <url>https://github.com/redstarssystems/rssysapp</url>
