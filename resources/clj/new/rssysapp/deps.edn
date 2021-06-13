@@ -8,13 +8,13 @@
              org.clojure/test.check                    {:mvn/version "1.1.0"}
 
              ;;logging
-             io.pedestal/pedestal.log                  {:mvn/version "0.5.8"}
-             org.apache.logging.log4j/log4j-core       {:mvn/version "2.14.0"}
-             org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.14.0"}
+             io.pedestal/pedestal.log                  {:mvn/version "0.5.9"}
+             org.apache.logging.log4j/log4j-core       {:mvn/version "2.14.1"}
+             org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.14.1"}
              }
 
  :aliases   {
-             :compile  {:extra-deps {badigeon/badigeon {:mvn/version "1.4"}}}
+             :compile  {:extra-deps {badigeon/badigeon {:mvn/version "1.7"}}}
 
              :run      {:extra-paths ["resources"]
                         :jvm-opts    ["-DLOG4J_CONFIGURATION_FILE=resources/log4j2.xml"
@@ -31,7 +31,7 @@
 
              :test     {:extra-deps  {org.clojure/test.check        {:mvn/version "1.1.0"}
                                       healthsamurai/matcho          {:mvn/version "0.3.7"}
-                                      lambdaisland/kaocha           {:mvn/version "1.0.829"}
+                                      lambdaisland/kaocha           {:mvn/version "1.0.861"}
                                       lambdaisland/kaocha-cloverage {:mvn/version "1.0.75"}}
                         :extra-paths ["resources" "test" "test/resources"]
                         :jvm-opts    []
@@ -60,7 +60,7 @@
                         :exec-args    {:installer :local :artifact "{{name}}.jar"}}
 
 
-             :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "0.13.0"}}
+             :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "0.15.2"}}
                         :main-opts  ["-m" "antq.core"]}
 
              }

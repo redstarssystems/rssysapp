@@ -1,5 +1,14 @@
 == Changelog
 
+=== [1.0.2] - 13-06-2021
+.Added
+* `bb run` now supports command line arguments for application.
+* Github Actions CI. Publish new version to Clojars.
+
+.Changed
+* program `env` replaced with `{:extra-env env-vars}` map to pass new environment variables to the shell command.
+* updated dependencies.
+
 === [1.0.1]
 .Fixed
 * if `group-id` or `artifact-id` contain dashes then, in script `start.sh`, they now replaced with underscores for the `standalone` task.
