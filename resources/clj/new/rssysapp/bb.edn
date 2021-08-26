@@ -21,12 +21,12 @@
                                  (def secrets (load-config :file "project-secrets.edn"))
                                  (def env (from-env))
                                  (def version-file "project-version")
-                                 (def version-id (clojure.string/trim (slurp version-file)))
+                                 (def artifact-version (clojure.string/trim (slurp version-file)))
                                  (def group-id (:group-id config))
                                  (def artifact-id (:artifact-id config))
                                  (def project-name (:project-name config))
-                                 (def uberjar-filename (format "%s/%s-%s-standalone.jar" target-folder artifact-id version-id))
-                                 (def jar-filename (format "%s/%s-%s.jar" target-folder artifact-id version-id)))
+                                 (def uberjar-filename (format "%s/%s-%s-standalone.jar" target-folder artifact-id artifact-version))
+                                 (def jar-filename (format "%s/%s-%s.jar" target-folder artifact-id artifact-version)))
                   :enter       (let [{:keys [name]} (current-task)] (println (clojure.core/format "%s[ ] %s %s%s" ansi-yellow name (current-date) ansi-reset)))
                   :leave       (let [{:keys [name]} (current-task)] (println (clojure.core/format "%s[✔]︎ %s %s%s" ansi-green name (current-date) ansi-reset)))
                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -40,7 +40,7 @@
                                                      uberjar-filename
                                                      group-id
                                                      artifact-id
-                                                     version-id)]
+                                                     artifact-version)]
                                         ;;(run 'javac) ;;uncomment this if you have java sources
                                         (fs/create-dirs target-folder)
                                         (clojure params))}
@@ -69,8 +69,8 @@
                   bump         {:doc  "Bump version artifact in `project-version` file, level may be one of: major, minor, patch, alpha, beta, rc, release."
                                 :task (let [param (first *command-line-args*)
                                             level (or (#{"major" "minor" "patch" "alpha" "beta" "rc" "release"} param) "patch")]
-                                        (shell {:out version-file} (format "bb -f scripts/bump-semver.clj %s %s" version-id level))
-                                        (println version-id "->" (clojure.string/trim (slurp version-file))))}
+                                        (shell {:out version-file} (format "bb -f scripts/bump-semver.clj %s %s" artifact-version level))
+                                        (println artifact-version "->" (clojure.string/trim (slurp version-file))))}
 
 
                   test         {:doc  "Run tests"
@@ -102,7 +102,7 @@
                                                      jar-filename
                                                      group-id
                                                      artifact-id
-                                                     version-id)]
+                                                     artifact-version)]
                                         ;;(run 'javac) ;;uncomment this if you have java sources
                                         (fs/create-dirs target-folder)
                                         (clojure params))}
@@ -112,7 +112,7 @@
                                         (do
                                           (println "jlink is not installed. Please, install JDK jmod package.\n")
                                           (System/exit 1))
-                                        (let [bundle-name (clojure.core/format "%s-%s" artifact-id version-id)
+                                        (let [bundle-name (clojure.core/format "%s-%s" artifact-id artifact-version)
                                               bundle-path (clojure.core/format "%s/%s" target-folder bundle-name)
                                               bundle-jvm-params "-Xmx1g"
                                               script-body (clojure.core/format "#!/bin/sh\n\nbin/java %s -cp .:./lib/* %s.%s.core"
@@ -127,7 +127,7 @@
                                           (shell (clojure.core/format "cp %s %s/lib/" uberjar-filename bundle-path))
                                           (spit script-file script-body)
                                           (shell (clojure.core/format "chmod +x %s" script-file))
-                                          (shell (clojure.core/format "tar cvfz %s/%s-%s.tar.gz -C %s %s" target-folder artifact-id version-id target-folder bundle-name))))}
+                                          (shell (clojure.core/format "tar cvfz %s/%s-%s.tar.gz -C %s %s" target-folder artifact-id artifact-version target-folder bundle-name))))}
 
 
                   requirements {:doc  "Install project requirements"
